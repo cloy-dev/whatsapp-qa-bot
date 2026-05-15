@@ -157,12 +157,21 @@ app.post("/webhook", async (req, res) => {
     // SEND WHATSAPP MESSAGE
     // =======================================
     try {
+
+      console.log("Sending reply to:", from);
+      console.log("Reply text:", reply);
+
       const response = await axios.post(
         `https://graph.facebook.com/v19.0/${PHONE_NUMBER_ID}/messages`,
         {
           messaging_product: "whatsapp",
+          recipient_type: "individual",
           to: from,
-          text: { body: reply }
+          type: "text",
+          text: {
+            preview_url: false,
+            body: reply
+          }
         },
         {
           headers: {
